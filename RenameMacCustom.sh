@@ -18,7 +18,7 @@
 	#
 	#
 	###############################################################
-	#
+	# written by Tomos Tyler 2017 - Updated 2020
 
 #Only Run as Root
 thisUser=`whoami`
@@ -27,13 +27,14 @@ if [[ $thisUser != "root" ]];then
 	exit 1
 fi
 
-extensionBU=""
-JamfURL=`defaults read /Library/Preferences/com.jamfsoftware.jamf.plist jss_url`
+extensionBU="" # could be ${4} parameter from Jamf, i.e. extensionBU="${4}"
+#JamfURL=`defaults read /Library/Preferences/com.jamfsoftware.jamf.plist jss_url`
 serialNumber=$(system_profiler SPHardwareDataType | awk '/Serial Number/{print $4}')
 
+# Trim the serial number to a specific number of chracters from Serial Number
 IDNumber=$(echo ${serialNumber} | cut -c 6-12)
-#echo ${serialNumber}
 
+# Group the new name to a group of custom extension and serialnumber
 MacName="${extensionBU}${IDNumber}"
 
 if [[ -z ${MacName} ]];then
